@@ -22,4 +22,4 @@
   -	 In cahrt component there is unused dependancy injected. Tha
   -	 Update ngIf condition in chart html for displaying chart async way.
   -  Fix test cases
-  -  Add type of chartData. To make application stricly type. Avoid any keyword type in application 
+  -  Remove unneccesary subscrober events
