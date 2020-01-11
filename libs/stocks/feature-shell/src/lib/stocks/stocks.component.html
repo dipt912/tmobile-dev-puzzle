@@ -19,7 +19,7 @@
 
   <mat-form-field>
     <mat-label>Favorite time period</mat-label>
-    <mat-select formControlName="period">
+    <mat-select formControlName="period" (selectionChange)="changTimeFrame()">
       <mat-option
         *ngFor="let timePeriod of timePeriods"
         [value]="timePeriod.value"
@@ -28,10 +28,7 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-
-  <button (click)="fetchQuote()" [disabled]="stockPickerForm.invalid"  mat-raised-button>Go</button>
 </form>
 
 <coding-challenge-chart [data$]="quotes$" [title]="'Stocks'" [type]="'LineChart'" [columnNames]="['period', 'close']"
-  [options]="{ title: 'Stock price', width: '600', height: '400' }">
-</coding-challenge-chart>
+[options]="{ title: 'Stock price', width: '600', height: '400' }"> </coding-challenge-chart>
