@@ -86,6 +86,46 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./apps/stocks-api/src/config/config.ts":
+/*!**********************************************!*\
+  !*** ./apps/stocks-api/src/config/config.ts ***!
+  \**********************************************/
+/*! exports provided: config */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "config", function() { return config; });
+var config = {
+    expiresInMS: 30,
+    generateTimeout: 5
+};
+
+
+/***/ }),
+
+/***/ "./apps/stocks-api/src/environments/environment.ts":
+/*!*********************************************************!*\
+  !*** ./apps/stocks-api/src/environments/environment.ts ***!
+  \*********************************************************/
+/*! exports provided: environment */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "environment", function() { return environment; });
+// This file can be replaced during build by using the `fileReplacements` array.
+// `ng build ---prod` replaces `environment.ts` with `environment.prod.ts`.
+// The list of file replacements can be found in `angular.json`.
+var environment = {
+    production: false,
+    apiURL: 'https://cloud.iexapis.com/',
+    apiKey: 'pk_34de78d1ad554e928609368cce1b1a5c',
+};
+
+
+/***/ }),
+
 /***/ "./apps/stocks-api/src/main.ts":
 /*!*************************************!*\
   !*** ./apps/stocks-api/src/main.ts ***!
@@ -99,30 +139,52 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(tslib__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var hapi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! hapi */ "hapi");
 /* harmony import */ var hapi__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(hapi__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _config_config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./config/config */ "./apps/stocks-api/src/config/config.ts");
+/* harmony import */ var _services_stockService__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./services/stockService */ "./apps/stocks-api/src/services/stockService.ts");
 var _this = undefined;
 
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- **/
 
+
+
+var minute = 60000;
+var whiteListOrigin = ['http://localhost:4200'];
 var init = function () { return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](_this, void 0, void 0, function () {
     var server;
+    var _this = this;
     return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
         switch (_a.label) {
             case 0:
                 server = new hapi__WEBPACK_IMPORTED_MODULE_1__["Server"]({
                     port: 3333,
-                    host: 'localhost'
+                    host: 'localhost',
+                    routes: {
+                        cors: {
+                            origin: whiteListOrigin,
+                            headers: ['Accept', 'Content-Type'],
+                            exposedHeaders: []
+                        }
+                    }
                 });
                 server.route({
                     method: 'GET',
-                    path: '/',
-                    handler: function (request, h) {
-                        return {
-                            hello: 'world'
-                        };
-                    }
+                    path: '/beta/stock/{symbol}/chart/{period}',
+                    options: {
+                        log: {
+                            collect: true
+                        }
+                    },
+                    handler: function (request) { return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](_this, void 0, void 0, function () {
+                        return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
+                            return [2 /*return*/, server.methods.requestStockApiData(request.path)];
+                        });
+                    }); }
+                });
+                server.method('requestStockApiData', _services_stockService__WEBPACK_IMPORTED_MODULE_3__["requestStockApiData"], {
+                    cache: {
+                        expiresIn: _config_config__WEBPACK_IMPORTED_MODULE_2__["config"].expiresInMS * minute,
+                        generateTimeout: _config_config__WEBPACK_IMPORTED_MODULE_2__["config"].generateTimeout * minute
+                    },
+                    generateKey: function (symbol, range) { return symbol + '.' + range; }
                 });
                 return [4 /*yield*/, server.start()];
             case 1:
@@ -137,6 +199,34 @@ process.on('unhandledRejection', function (err) {
     process.exit(1);
 });
 init();
+
+
+/***/ }),
+
+/***/ "./apps/stocks-api/src/services/stockService.ts":
+/*!******************************************************!*\
+  !*** ./apps/stocks-api/src/services/stockService.ts ***!
+  \******************************************************/
+/*! exports provided: requestStockApiData */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestStockApiData", function() { return requestStockApiData; });
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../environments/environment */ "./apps/stocks-api/src/environments/environment.ts");
+var requestTool = __webpack_require__(/*! request */ "request");
+
+var requestStockApiData = function (path) {
+    var url = "" + _environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiURL + path + "?token=" + _environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].apiKey;
+    return new Promise(function (resolve) {
+        requestTool(url, function (error, response, body) {
+            if (response && response.statusCode === 200) {
+                console.log('No cache.....');
+                resolve(body);
+            }
+        });
+    });
+};
 
 
 /***/ }),
@@ -161,6 +251,17 @@ module.exports = __webpack_require__(/*! /Users/dipteshpatel/Documents/tmobile-d
 /***/ (function(module, exports) {
 
 module.exports = require("hapi");
+
+/***/ }),
+
+/***/ "request":
+/*!**************************!*\
+  !*** external "request" ***!
+  \**************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("request");
 
 /***/ }),
 
