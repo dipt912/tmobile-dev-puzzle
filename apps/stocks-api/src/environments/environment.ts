@@ -3,5 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  apiURL:'https://cloud.iexapis.com/',
+  apiKey: 'pk_34de78d1ad554e928609368cce1b1a5c',
 };
