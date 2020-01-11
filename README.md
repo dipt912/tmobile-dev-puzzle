@@ -43,7 +43,9 @@ A proxy has been set up in `stocks` to proxy calls to `locahost:3333` which is t
 Please provide a short code review of the base `master` branch:
 
 1. What is done well?
+
 2. What would you change?
+   
 3. Are there any code smells or problematic implementations?
 
 > Make a PR to fix at least one of the issues that you identify
