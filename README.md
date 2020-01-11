@@ -43,7 +43,12 @@ A proxy has been set up in `stocks` to proxy calls to `locahost:3333` which is t
 Please provide a short code review of the base `master` branch:
 
 1. What is done well?
+ First When I update 
 2. What would you change?
+   Found one problem on first look.
+   When you update form with symbol and time drop drown and click to Go. There is netwotk call for get data but app component not updating local data model. One subscriber event needed so that if any data change subscriber event will listen and update chart component.
+
+   
 3. Are there any code smells or problematic implementations?
 
 > Make a PR to fix at least one of the issues that you identify
