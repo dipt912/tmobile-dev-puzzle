@@ -13,7 +13,7 @@
   -	  Deafult value of cahrt pass as a input data in component. In case in future if any user requuirement to update chart type of      size then we can make some selection type and pass it to chart component.
   - There is multiple request going on network. For example if you fill some data and click button  and after some time again click on
      go button without any change on form, there is same request on network side. This issue better way to resolve  by cache/memoieze mechanism.
-  -   All the cosnt values save to the separate file 
+  -  All the cosnt values save to the separate file 
   - Disable Go button if form is invalid.
 
 
@@ -21,3 +21,4 @@
   -	 In cahrt component there is unused dependancy injected. Tha
   -	 Update ngIf condition in chart html for displaying chart async way.
   -  Fix test cases
+  -  Add type of chartData. To make application stricly type. Avoid any keyword type in application 
