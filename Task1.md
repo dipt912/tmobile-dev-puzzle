@@ -4,7 +4,8 @@
   - Project component and module structure well
   - Nice way to handle child component
   -	Application data management done well. Very nice way to write action and reducer pattern
-  - Set up test cases for component modules
+  - Set up test cases for component modules.
+  - Like single state of application so easily test readucer and actions functionality.
 
 
 # 2. What would you change?
